@@ -1,0 +1,28 @@
+{% extends "NLKCoreBundle::layout.html.twig" %}
+
+{% block menu %}
+	<div class="container">
+		<div class="btn-group-vertical" role="group" aria-labelledby="themes">
+			<a class="btn btn-default" href="{{ path('nlk_my_money_rentree_quotidienne_add') }}">Ajouter rentrée quotidienne</a>
+			<a class="btn btn-default" href="{{ path('nlk_my_money_rentree_mensuelle_add') }}">Ajouter rentree mensuelle</a>
+			<a class="btn btn-default" href="{{ path('nlk_my_money_rentree_ammortie_add') }}">Ajouter rentrée ammortie</a>
+			<a class="btn btn-default" href="{{ path('nlk_my_money_depense_quotidienne_add') }}">Ajouter dépense quotidienne</a>
+			<a class="btn btn-default" href="{{ path('nlk_my_money_depense_mensuelle_add') }}">Ajouter dépense mensuelle</a>
+			<a class="btn btn-default" href="{{ path('nlk_my_money_depense_ammortie_add') }}">Ajouter dépense ammortie</a>
+		</div>
+	</div>
+
+	{% block bilan %}
+	{% endblock %}
+
+{% endblock %}
+
+{% block body %}
+
+  {% block titre %}
+  {% endblock %}
+
+  {% block nlkmymoney_body %}
+  {% endblock %}
+
+{% endblock %}

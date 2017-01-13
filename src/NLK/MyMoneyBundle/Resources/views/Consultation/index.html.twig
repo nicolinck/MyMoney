@@ -1,0 +1,225 @@
+{% extends "NLKMyMoneyBundle::layout.html.twig" %}
+
+
+
+{% block titre %}
+  <h1>{{ exercice.annee }} - {{ exercice.getMonthName() }}</h1>
+{% endblock %}
+
+{% block bilan %}
+	<h3>Bilan  du mois</h3>
+<div class="table">          
+	    <table class="table table-condensed">
+	    	<tbody>
+	    		<tr class="success">
+	        		<td>Rentrées ammorties</td>
+	        		<td class="text-right">{{ totalRentreesAmmorties|round(2) }} €</td>
+	      		</tr>
+	      		<tr class="success">
+	        		<td>Rentrées mensuelles</td>
+	        		<td class="text-right">{{ totalRentreesMensuelles|round(2) }} €</td>
+	      		</tr>
+	      		<tr class="success">
+	        		<td>Rentrées quotidiennes</td>
+	        		<td class="text-right">{{ totalRentreesQuotidiennes|round(2) }} €</td>
+	      		</tr>
+	      		{% set totalRentrees = totalRentreesAmmorties + totalRentreesMensuelles + totalRentreesQuotidiennes %}
+	      		{% if  regularisation >= 0 %}
+	      		{% set totalRentrees = totalRentrees + regularisation %}
+	      		<tr class="success">
+	        		<td><b><font size="+1">Régularisation</b></font></td>
+	        		<td class="text-right"><b><font size="+1"> {{ regularisation|round(2) }} €</b></font></td>
+	      		</tr>
+	      		{% endif %}
+	      		<tr class="success">
+	        		<td><b><font size="+1">Total Rentrées</b></font></td>
+	        		<td class="text-right"><b><font size="+1">{{ totalRentrees|round(2) }} €</b></font></td>
+	      		</tr>
+	      		<tr class="danger">
+	        		<td>Dépenses ammorties</td>
+	        		<td class="text-right">{{ totalDepensesAmmorties|round(2) }} €</td>
+	      		</tr>
+	      		<tr class="danger">
+	        		<td>Dépenses mensuelles</td>
+	        		<td class="text-right">{{ totalDepensesMensuelles|round(2) }} €</td>
+	      		</tr>
+	      		<tr class="danger">
+	        		<td>Dépenses quotidiennes</td>
+	        		<td class="text-right">{{ totalDepensesQuotidiennes|round(2) }} €</td>
+	      		</tr>
+	      		{% set totalDepenses = totalDepensesAmmorties + totalDepensesMensuelles + totalDepensesQuotidiennes %}
+	      		{% if  regularisation < 0 %}
+	      		{% set totalDepenses = totalDepenses - regularisation %}
+	      		<tr class="danger">
+	        		<td><b><font size="+1">Régularisation</b></font></td>
+	        		<td class="text-right"><b><font size="+1"> {{ -regularisation|round(2) }} €</b></font></td>
+	      		</tr>
+	      		{% endif %}
+	      		<tr class="danger">
+	        		<td><b><font size="+1">Total Dépenses</b></font></td>
+	        		<td class="text-right"><b><font size="+1">{{ totalDepenses|round(2) }} €</b></font></td>
+	      		</tr>
+				<tr class="info">
+	        		<td><b><font size="+2">Reste</b></font></td>
+	        		<td class="text-right"><b><font size="+2">{{ (totalRentrees - totalDepenses)|round(2) }} €</b></font></td>
+	      		</tr>
+	    	</tbody>
+	  	</table>
+  	</div>
+{% endblock %}
+
+{% block nlkmymoney_body %}
+
+<div class="btn-group" role="group" aria-label="theme">
+  <a class="btn btn-default" href="{{ path('nlk_my_money_home', { 'annee': exercicePrecedent.annee, 'mois': exercicePrecedent.mois }) }}">{{ exercicePrecedent.annee }} - {{ exercicePrecedent.getMonthName() }}</a>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Aller à l'exercice
+      <div class="caret"></div>
+    </button>
+    <ul class="dropdown-menu">
+	{% for e in listeExercices %}
+      <li><a href="{{ path('nlk_my_money_home', { 'annee': e.annee, 'mois': e.mois }) }}">{{ e.annee }} - {{ e.getMonthName() }}</a></li>
+	{% endfor %}
+    </ul>
+  </div>
+  <a class="btn btn-default" href="{{ path('nlk_my_money_home', { 'annee': exerciceSuivant.annee, 'mois': exerciceSuivant.mois }) }}">{{ exerciceSuivant.annee }} - {{ exerciceSuivant.getMonthName() }}</a>
+</div>
+
+  	<h3>Rentrées fixes</h3>
+	<div class="table">          
+	    <table class="table table-condensed">
+	      <thead>
+	        <tr>
+	          	<th>Catégorie</th>
+	          	<th>Libellé</th>
+	          	<th>Montant</th>
+	          	<th></th>
+	      	</tr>
+	    	</thead>
+	    	<tbody>
+	      		{% for renMens in listeRenMens %}
+	      		<tr>
+	        		<td>{{ renMens.categorie.name }}</td>
+	        		<td>{{ renMens.name }}</td>
+	        		<td class="text-right">{{ renMens.montant }} €</td>
+	        		<td class="text-right"><a class="btn btn-primary btn-xs" href="{{ path('nlk_my_money_rentree_mensuelle_edit', { 'id': renMens.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-pencil"></div>
+        </a><a class="btn btn-warning btn-xs" href="{{ path('nlk_my_money_rentree_mensuelle_duplicate', { 'id': renMens.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-retweet"></div>
+        </a><a class="btn btn-danger btn-xs" href="{{ path('nlk_my_money_rentree_delete', { 'id': renMens.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-trash"></div>
+        </a></td>
+	      		</tr>
+	      		{% endfor %}
+	    	</tbody>
+	  	</table>
+  	</div>
+
+  	<h3>Rentrées quotidiennes</h3>
+	<div class="table">          
+	    <table class="table table-condensed">
+	      <thead>
+	        <tr>
+	          <th>Date</th>
+	          <th>Catégorie</th>
+	          <th>Libellé</th>
+	          <th>Montant</th>
+	          <th></th>
+	      	</tr>
+	    	</thead>
+	    	<tbody>
+	      		{% for renQuot in listeRenQuot %}
+	      		<tr>
+	        		<td>{{ renQuot.date|date('Y-m-d') }}</td>
+	        		<td>{{ renQuot.categorie.name }}</td>
+	        		<td>{{ renQuot.name }}</td>
+	        		<td class="text-right">{{ renQuot.montant }} €</td>
+	        		<td class="text-right"><a class="btn btn-primary btn-xs" href="{{ path('nlk_my_money_rentree_quotidienne_edit', { 'id': renQuot.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-pencil"></div>
+        </a><a class="btn btn-warning btn-xs" href="{{ path('nlk_my_money_rentree_quotidienne_duplicate', { 'id': renQuot.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-retweet"></div>
+        </a><a class="btn btn-danger btn-xs" href="{{ path('nlk_my_money_rentree_delete', { 'id': renQuot.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-trash"></div>
+        </a></td>
+	      		</tr>
+	      		{% endfor %}
+	    	</tbody>
+	  	</table>
+  	</div>
+
+  	<h3>Dépenses fixes</h3>
+	<div class="table">          
+	    <table class="table table-condensed">
+	      <thead>
+	        <tr>
+	          	<th>Catégorie</th>
+	          	<th>Libellé</th>
+	          	<th>Montant</th>
+	         	<th></th>
+	      	</tr>
+	    	</thead>
+	    	<tbody>
+	      		{% for depMens in listeDepMens %}
+	      		<tr>
+	        		<td>
+	        		{{ depMens.categorie.name }}
+	        			        		{% if depMens.commun == 1  %}
+	        		<div class="glyphicon glyphicon-user"></div>
+	        		{% endif %}</td>
+	        		<td>
+	        		{{ depMens.name }}</td>
+	        		<td class="text-right">{{ depMens.montant }} €</td>
+	        		<td class="text-right"><a class="btn btn-primary btn-xs" href="{{ path('nlk_my_money_depense_mensuelle_edit', { 'id': depMens.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-pencil"></div>
+        </a><a class="btn btn-warning btn-xs" href="{{ path('nlk_my_money_depense_mensuelle_duplicate', { 'id': depMens.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-retweet"></div>
+        </a><a class="btn btn-danger btn-xs" href="{{ path('nlk_my_money_depense_delete', { 'id': depMens.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-trash"></div>
+        </a></td>
+	      		</tr>
+	      		{% endfor %}
+	    	</tbody>
+	  	</table>
+  	</div>
+
+  	<h3>Dépenses quotidiennes</h3>
+	<div class="table">          
+	    <table class="table table-condensed">
+	      <thead>
+	        <tr>
+	          <th>Date</th>
+	          <th>Catégorie</th>
+	          <th>Libellé</th>
+	          <th>Montant</th>
+	          <th></th>
+	      	</tr>
+	    	</thead>
+	    	<tbody>
+	      		{% for depQuot in listeDepQuot %}
+	      		<tr>
+	        		<td>{{ depQuot.date|date('Y-m-d') }}
+	        		{% if depQuot.commun == 1  %}
+	        		<div class="glyphicon glyphicon-user"></div>
+	        		{% endif %}
+	        		</td>
+	        		<td>
+	        		{{ depQuot.categorie.name }}
+
+					</td>
+	        		<td>{{ depQuot.name }}</td>
+	        		<td class="text-right">{{ depQuot.montant }} €</td>
+	        		<td class="text-right"><a class="btn btn-primary btn-xs" href="{{ path('nlk_my_money_depense_quotidienne_edit', { 'id': depQuot.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-pencil"></div>
+        </a><a class="btn btn-warning btn-xs" href="{{ path('nlk_my_money_depense_quotidienne_duplicate', { 'id': depQuot.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-retweet"></div>
+        </a><a class="btn btn-danger btn-xs" href="{{ path('nlk_my_money_depense_delete', { 'id': depQuot.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-trash"></div>
+        </a></td>
+	      		</tr>
+	      		{% endfor %}
+	    	</tbody>
+	  	</table>
+  	</div>
+  
+{% endblock %}

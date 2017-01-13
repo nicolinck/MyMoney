@@ -1,0 +1,4 @@
+services:
+#    nlk_my_money.example:
+#        class: NLK\MyMoneyBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

@@ -1,0 +1,158 @@
+nlk_my_money_home:
+    path:     /{annee}/{mois}
+    defaults: 
+        _controller: NLKMyMoneyBundle:Consultation:index
+        annee:  %current_year%
+        mois:   %current_month%
+    requirements:
+        annee:   \d{4}
+        mois:  \d{1,2}
+
+nlk_my_money_ammortissements_view:
+    path:     /Ammortissements
+    defaults: 
+        _controller: NLKMyMoneyBundle:Consultation:viewAmmortissements
+
+nlk_my_money_depenses_communes_view:
+    path:     /DepensesCommunes/{annee}/{mois}
+    defaults: 
+        _controller: NLKMyMoneyBundle:Consultation:viewDepensesCommunes
+        annee:  %current_year%
+        mois:   %current_month%
+    requirements:
+        annee:  \d{4}
+        mois:   \d{1,2}
+
+nlk_my_money_categDebit:
+    path:     /CategDebit
+    defaults: 
+        _controller: NLKMyMoneyBundle:CategDebit:index
+
+nlk_my_money_categCredit:
+    path:     /CategCredit
+    defaults: 
+        _controller: NLKMyMoneyBundle:CategCredit:index
+
+nlk_my_money_depense_index:
+    path:     /Depense
+    defaults: 
+        _controller: NLKMyMoneyBundle:Depense:index
+
+nlk_my_money_depense_delete:
+    path:     /Depense/Delete/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:Depense:delete
+    requirements:
+        id: \d+
+
+nlk_my_money_depense_quotidienne_add:
+    path:     /DepenseQuotidienne/Add
+    defaults: 
+        _controller: NLKMyMoneyBundle:DepenseQuotidienne:add
+
+nlk_my_money_depense_quotidienne_edit:
+    path:     /DepenseQuotidienne/Edit/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:DepenseQuotidienne:edit
+    requirements:
+        id: \d+
+
+nlk_my_money_depense_quotidienne_duplicate:
+    path:     /DepenseQuotidienne/Duplicate/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:DepenseQuotidienne:duplicate
+    requirements:
+        id: \d+
+
+nlk_my_money_depense_mensuelle_add:
+    path:     /DepenseMensuelle/Add
+    defaults: 
+        _controller: NLKMyMoneyBundle:DepenseMensuelle:add
+
+nlk_my_money_depense_mensuelle_edit:
+    path:     /DepenseMensuelle/Edit/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:DepenseMensuelle:edit
+    requirements:
+        id: \d+
+
+nlk_my_money_depense_mensuelle_duplicate:
+    path:     /DepenseMensuelle/Duplicate/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:DepenseMensuelle:duplicate
+    requirements:
+        id: \d+
+
+nlk_my_money_depense_ammortie_add:
+    path:     /DepenseAmmortie/Add
+    defaults: 
+        _controller: NLKMyMoneyBundle:DepenseAmmortie:add
+
+nlk_my_money_depense_ammortie_edit:
+    path:     /DepenseAmmortie/Edit/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:DepenseAmmortie:edit
+    requirements:
+        id: \d+
+
+nlk_my_money_rentree_index:
+    path:     /Rentree
+    defaults: 
+        _controller: NLKMyMoneyBundle:Rentree:index
+
+nlk_my_money_rentree_delete:
+    path:     /Rentree/Delete/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:Rentree:delete
+    requirements:
+        id: \d+
+
+nlk_my_money_rentree_quotidienne_add:
+    path:     /RentreeQuotidienne/Add
+    defaults: 
+        _controller: NLKMyMoneyBundle:RentreeQuotidienne:add
+
+nlk_my_money_rentree_quotidienne_edit:
+    path:     /RentreeQuotidienne/Edit/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:RentreeQuotidienne:edit
+    requirements:
+        id: \d+
+
+nlk_my_money_rentree_quotidienne_duplicate:
+    path:     /RentreeQuotidienne/Duplicate/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:RentreeQuotidienne:duplicate
+    requirements:
+        id: \d+
+
+nlk_my_money_rentree_mensuelle_add:
+    path:     /RentreeMensuelle/Add
+    defaults: 
+        _controller: NLKMyMoneyBundle:RentreeMensuelle:add
+
+nlk_my_money_rentree_mensuelle_edit:
+    path:     /RentreeMensuelle/Edit/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:RentreeMensuelle:edit
+    requirements:
+        id: \d+
+
+nlk_my_money_rentree_mensuelle_duplicate:
+    path:     /RentreeMensuelle/Duplicate/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:RentreeMensuelle:duplicate
+    requirements:
+        id: \d+
+
+nlk_my_money_rentree_ammortie_add:
+    path:     /RentreeAmmortie/Add
+    defaults: 
+        _controller: NLKMyMoneyBundle:RentreeAmmortie:add
+
+nlk_my_money_rentree_ammortie_edit:
+    path:     /RentreeAmmortie/Edit/{id}
+    defaults: 
+        _controller: NLKMyMoneyBundle:RentreeAmmortie:edit
+    requirements:
+        id: \d+

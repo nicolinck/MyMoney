@@ -1,0 +1,4 @@
+nlk_core_homepage:
+    path:     /
+    defaults: 
+        _controller: NLKCoreBundle:Core:index

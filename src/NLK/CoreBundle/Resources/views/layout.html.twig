@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}MyMoney V2{% endblock %}</title>
+
+    {% block stylesheets %}
+      {# On charge le CSS de bootstrap depuis le site directement #}
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> 
+    {% endblock %}
+  </head>
+
+  <body>
+  <div style="height: 70px;">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li class="active"> <a href="{{ path('nlk_core_homepage') }}">MyMoney V2</a> </li>
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dépenses</a>
+                <ul class="dropdown-menu" aria-labelledby="themes">
+                  <li><a href="{{ path('nlk_my_money_depense_quotidienne_add') }}">Ajouter dépense quotidienne</a></li>
+                  <li><a href="{{ path('nlk_my_money_depense_mensuelle_add') }}">Ajouter dépense mensuelle</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                  <a href="#" data-toggle="dropdown" class="dropdown-toggle">Rentrées</a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">
+                    <li><a href="{{ path('nlk_my_money_rentree_quotidienne_add') }}">Ajouter rentrée quotidienne</a></li>
+                    <li><a href="{{ path('nlk_my_money_rentree_mensuelle_add') }}">Ajouter rentree mensuelle</a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a href="#" data-toggle="dropdown" class="dropdown-toggle">Ammortissement</a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">
+                    <li><a href="{{ path('nlk_my_money_depense_ammortie_add') }}">Ajouter dépense ammortie</a></li>
+                    <li><a href="{{ path('nlk_my_money_rentree_ammortie_add') }}">Ajouter rentrée ammortie</a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a href="#" data-toggle="dropdown" class="dropdown-toggle">Consultation</a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">
+                    <li><a href="{{ path('nlk_my_money_ammortissements_view') }}">Ammortissements</a></li>
+                    <li><a href="{{ path('nlk_my_money_depenses_communes_view') }}">Dépenses communes</a></li>
+                  </ul>
+              </li>
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin</a>
+                <ul class="dropdown-menu" aria-labelledby="themes">
+                  <li><a href="{{ path('nlk_my_money_categDebit') }}">Catégories Dépenses</a></li>
+                  <li><a href="{{ path('nlk_my_money_categCredit') }}">Catégories Rentrées</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">{{ app.user.username }}</a>
+                <ul class="dropdown-menu" aria-labelledby="themes">
+                  <li><a href="{{ path('fos_user_change_password') }}">Changer le mot de passe</a></li>
+                  <li class="divider"></li>
+                  <li><a href="{{ path('fos_user_security_logout') }}">Deconnexion</a></li>
+                </ul>
+            </li>
+        </ul>
+      </div>
+    </nav>
+    </div>
+    <div class="row">
+      <div id="menu" class="col-md-3" >
+        {% block menu %}
+        {% endblock %}
+      </div>
+      <div id="content" class="col-md-6">
+        {% block body %}
+        {% endblock %}
+      </div>
+    </div>
+
+    <hr>
+
+    <footer>
+      <p>MyMoney V2 © {{ 'now'|date('Y') }}</p>
+    </footer>
+  </div>
+
+  {% block javascripts %}
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  {% endblock %}
+
+  </body>
+</html>

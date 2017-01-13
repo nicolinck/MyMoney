@@ -1,0 +1,109 @@
+{% extends "NLKMyMoneyBundle::layout.html.twig" %}
+
+
+{% block titre %}
+  <h2>Dépenses communes     {{ exercice.annee }} - {{ exercice.getMonthName()  }}</h2>
+{% endblock %}
+
+{% block nlkmymoney_body %}
+
+<div class="btn-group" role="group" aria-label="theme">
+  <a class="btn btn-default" href="{{ path('nlk_my_money_depenses_communes_view', { 'annee': exercicePrecedent.annee, 'mois': exercicePrecedent.mois }) }}">{{ exercicePrecedent.annee }} - {{ exercicePrecedent.getMonthName()}}</a>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Aller à l'exercice
+      <div class="caret"></div>
+    </button>
+    <ul class="dropdown-menu">
+	{% for e in listeExercices %}
+      <li><a href="{{ path('nlk_my_money_depenses_communes_view', { 'annee': e.annee, 'mois': e.mois }) }}">{{ e.annee }} - {{ e.getMonthName() }}</a></li>
+	{% endfor %}
+    </ul>
+  </div>
+  <a class="btn btn-default" href="{{ path('nlk_my_money_depenses_communes_view', { 'annee': exerciceSuivant.annee, 'mois': exerciceSuivant.mois }) }}">{{ exerciceSuivant.annee }} - {{ exerciceSuivant.getMonthName() }}</a>
+</div>
+
+  	<h3>Dépenses mensuelles</h3>
+	<div class="table">          
+	    <table class="table table-condensed">
+	      <thead>
+	        <tr>
+	          <th>Personne</th>
+	          <th>Catégorie</th>
+	          <th>Libellé</th>
+	          <th>Montant</th>
+	          <th>Perso</th>
+	          <th>Pour l'autre</th>
+	          <th></th>
+	      	</tr>
+	    	</thead>
+	    	<tbody>
+	      		{% for DepenseMensuelleCommune in listeDepensesMensuellesCommunes %}
+	      		<tr>
+	      			<td>{{ DepenseMensuelleCommune.user.username }}</td>
+	        		<td>{{ DepenseMensuelleCommune.categorie.name }}</td>
+	        		<td>{{ DepenseMensuelleCommune.name }}</td>
+	        		<td class="text-right">{{ DepenseMensuelleCommune.montant }} €</td>
+	        		<td class="text-right">{{ DepenseMensuelleCommune.perso }} €</td>
+	        		<td class="text-right">{{ DepenseMensuelleCommune.autre }} €</td>
+	        		{% if DepenseMensuelleCommune.user.id == app.user.id %}
+	        		<td class="text-right"><a class="btn btn-primary btn-xs" href="{{ path('nlk_my_money_depense_mensuelle_edit', { 'id': DepenseMensuelleCommune.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-pencil"></div>
+        </a><a class="btn btn-warning btn-xs" href="{{ path('nlk_my_money_depense_mensuelle_duplicate', { 'id': DepenseMensuelleCommune.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-retweet"></div>
+        </a><a class="btn btn-danger btn-xs" href="{{ path('nlk_my_money_depense_delete', { 'id': DepenseMensuelleCommune.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-trash"></div>
+        </a></td>
+        			{% else %}
+        				<td></td><td></td>
+					{% endif %}
+	      		</tr>
+	      		{% endfor %}
+	    	</tbody>
+	  	</table>
+  	</div>
+
+  	<h3>Dépenses quotidiennes</h3>
+
+	<div class="table">          
+	    <table class="table table-condensed">
+	      <thead>
+	        <tr>
+	        	<th>Personne</th>
+	          	<th>Date</th>
+	          	<th>Catégorie</th>
+	          	<th>Libellé</th>
+	          	<th>Montant</th>
+	          	<th>Perso</th>
+	          	<th>Pour l'autre</th>
+	          	<th ></th>
+	      	</tr>
+	    	</thead>
+	    	<tbody>
+	      		{% for DepenseQuotidienneCommune in listeDepensesQuotidiennesCommunes %}
+	      		<tr>
+	      			<td>{{ DepenseQuotidienneCommune.user.username }}</td>
+	        		<td>{{ DepenseQuotidienneCommune.date|date('Y-m-d') }}</td>
+	        		<td>{{ DepenseQuotidienneCommune.categorie.name }}</td>
+	        		<td>{{ DepenseQuotidienneCommune.name }}</td>
+	        		<td class="text-right">{{ DepenseQuotidienneCommune.montant }} €</td>
+	        		<td class="text-right">{{ DepenseQuotidienneCommune.perso }} €</td>
+	        		<td class="text-right">{{ DepenseQuotidienneCommune.autre }} €</td>
+	        		{% if DepenseQuotidienneCommune.user.id == app.user.id %}
+	        		<td class="text-right"><a class="btn btn-primary btn-xs" title="Mofifier" href="{{ path('nlk_my_money_depense_quotidienne_edit', { 'id': DepenseQuotidienneCommune.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-pencil"></div>
+        </a><a class="btn btn-warning btn-xs" title="Dupliquer" href="{{ path('nlk_my_money_depense_quotidienne_duplicate', { 'id': DepenseQuotidienneCommune.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-retweet"></div>
+        </a><a class="btn btn-danger btn-xs" title="Supprimer" href="{{ path('nlk_my_money_depense_delete', { 'id': DepenseQuotidienneCommune.id }) }}">
+           <i class="icon-edit icon-white"></i><div class="glyphicon glyphicon-trash"></div>
+        </a></td>
+                {% else %}
+        		<td></td><td></td>
+				{% endif %}
+	      		</tr>
+	      		{% endfor %}
+	    	</tbody>
+	  	</table>
+  	</div>
+  
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "NLKMyMoneyBundle::layout.html.twig" %}
+
+{% block titre %}
+  <h2>Gérer Catégories {{ typeCateg }}</h2>
+{% endblock %}
+
+{% block nlkmymoney_body %}
+
+  <div class="table">          
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Catégorie</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for categ in listCategs %}
+      <tr>
+        <td>{{ categ.id }}</td>
+        <td>{{ categ.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+  {{form(formCateg)}}
+  
+{% endblock %}
